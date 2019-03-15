@@ -13,7 +13,7 @@
     "url": "git://github.com/ajnsit/purescript-concur.git"
   },
   "dependencies": {
-    "purescript-react": "^6.1.0",
+    "purescript-react": "git@github.com:bbarker/purescript-react.git#eb0a3417a4fa11fad2b8bf345709a9df09fe8677",
     "purescript-arrays": "^5.2.0",
     "purescript-aff": "^5.1.0",
     "purescript-avar": "^3.0.0",

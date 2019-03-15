@@ -76,8 +76,10 @@ foreign import refSetter :: forall a. RRef a -> a -> Effect Unit
 foreign import refGetter_ :: forall a. RRef a -> Effect (Nullable a)
 
 -- | `refGetter` will collapse nullable values
--- | So it will never return a `Just null`, only either `Nothing`, or `Just (notNull a)`
--- | So with `Nullable a`, it is easier, without loss of generality, to use `refNullableGetter`
+-- | So it will never return a `Just null`, only either `Nothing`, or
+-- | `Just (notNull a)`
+-- | So with `Nullable a`, it is easier, without loss of generality,
+-- | to use `refNullableGetter`
 refGetter ::
   forall a.
   RRef a ->
@@ -117,7 +119,8 @@ classList = className <<< intercalate " " <<< concatMap (maybe [] (\s ->
   [s]))
 
 -- | Use this to filter the output of an event handler prop.
--- | For example, to only handle the enter key - `filterProp isEnterEvent onKeyDown`
+-- | For example, to only handle the enter key - `filterProp isEnterEvent
+-- | onKeyDown`
 filterProp ::
   forall a.
   (a -> Boolean) ->
@@ -134,7 +137,8 @@ filterProp ok (Handler g) = Handler \h ->
 -- FFI + Util stuff
 -- | Get the event target's current value
 -- | HACK: This is brittle thanks to React's event object reuse!
--- | Safest is to use it directly on the prop like `unsafeTargetValue <$> onKeyDown`
+-- | Safest is to use it directly on the prop like
+-- | `unsafeTargetValue <$> onKeyDown`
 unsafeTargetValue ::
   forall r.
   SyntheticEvent_ r ->
@@ -736,6 +740,9 @@ onBlur = Handler P.onBlur
 
 onChange :: Props SyntheticInputEvent
 onChange = Handler P.onChange
+
+onChecked :: Props SyntheticInputEvent
+onChecked = Handler P.onChecked
 
 onInput :: Props SyntheticInputEvent
 onInput = Handler P.onInput
