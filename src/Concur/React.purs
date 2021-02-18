@@ -5,10 +5,12 @@ import Prelude
 import Concur.Core.Discharge (discharge, dischargePartialEffect)
 import Concur.Core.Types (Widget)
 import Data.Either (Either(..))
+import Data.Maybe (Maybe(..))
 import Data.Tuple (Tuple(..))
 import Effect (Effect)
 import Effect.Console (log)
 import React as R
+import Debug.Trace (spy)
 
 type HTML
   = Array R.ReactElement
@@ -27,11 +29,13 @@ componentClassWithMount onMount winit = R.component "Concur" component
       Tuple winit' v <- dischargePartialEffect winit
       pure { state: mkComponentState v
            , render: render <$> R.getState this
-           , componentDidMount: onMount *> handler this (Right winit')
+           , componentDidMount: onMount *> handler this (Right (Tuple true winit'))
            }
     handler this (Right r) = do
       v <- discharge (handler this) r
-      void $ R.writeState this (mkComponentState v)
+      case v of
+        Just view -> spy "rendering" R.writeState this (mkComponentState view)
+        Nothing -> spy "No render" pure unit
     handler _ (Left err) = do
       log ("FAILED! " <> show err)
       pure unit
